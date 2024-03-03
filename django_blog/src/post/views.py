@@ -24,7 +24,16 @@ def ggg(request):
     return HttpResponse ('<h2> GGG page</h2>') 
 
 def arсhive(request):
-    return HttpResponse ('number page') 
+    return HttpResponse ('Arсhive page') 
+
+def arсhive_2 (request):
+    return HttpResponse ('Arсhive page_2')
+
+def group (request):
+    print(request.path)
+    group_number=request.path
+    return HttpResponse (f'group #{group_number[12:-1]}')
+      
 
 
 def home(request):
