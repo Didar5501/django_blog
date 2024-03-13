@@ -6,6 +6,8 @@ from post import views
 
 from post.views import page_404
 
+from django.conf import settings
+
 urlpatterns= [
         path('admin/', admin.site.urls),
         path('post/', include('post.urls')),

@@ -17,7 +17,7 @@ class Post(models.Model):
     created_at=models.DateTimeField(auto_now_add=True, null=True) #дата создания
     updated_at=models.DateTimeField(auto_now=True, null=True) #дата последнего обновления записи
     is_actual = models.BooleanField(blank=True, null=True) # True/False
-    photo = models.ImageField(upload_to='post/imgs/', null=True)
+    photo = models.ImageField(upload_to='post/imgs/', null=True, blank=True)
     user_id = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='posts', null=True)
     categories = models.ManyToManyField(to='Category')
     
