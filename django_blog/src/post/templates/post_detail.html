@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали поста</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ message }}</p>
+    
+    <p><strong>Статус актуальности:</strong> {% if post.is_actual %}Актуально{% else %}Не актуально{% endif %}</p>
+    
+    {% if post.photo %}
+    <img src="{{ post.photo.url }}" alt="Фото поста" width='100px', height= '100px'>
+    {% endif %}
+    
+    <p><strong>Пользователь:</strong> {{ post.user }}</p>
+    
+    <p><strong>Категории:</strong>
+    {% for category in post.categories.all %}
+        {{ category.title }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
+    
+    <p><strong>Дата создания:</strong> {{ post.created_at }}</p>
+    <p><strong>Дата обновления:</strong> {{ post.updated_at }}</p>
+</body>
+</html>

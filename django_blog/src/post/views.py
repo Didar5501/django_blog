@@ -4,6 +4,8 @@ from django.shortcuts import render
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.template.response import TemplateResponse
+from post.models import Post
 
 # def index(request):
 #     print(request)
@@ -39,12 +41,27 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 #     return HttpResponse('<h1>HOME</h1>')
 
 def posts(request):
-     return HttpResponse('<h1>All posts:</h1>')
+    #  return HttpResponse('<h1>All posts:</h1>')
+    posts=Post.objects.all()
+    data={
+        'title': 'All posts',
+        'message': 'Hello',
+        'posts': posts,
+    }
 
+    return render(request, 'post.html', context=data)
 
 
 def post_detail(request, post_id):
-    return HttpResponse(f'detail:{post_id}')
+    try:
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Пост не существует")
+    context = {
+        'post': post,
+        'message': 'Детально ознакомьтесь с постом',
+    }
+    return render(request, 'post_detail.html', context)
 
 def post_archive(request, year):
     if int(year)> 2024 or int(year)<1995:
@@ -58,3 +75,7 @@ def get_post_handler(request):
 
 def page_404(request, exception):
     return HttpResponseNotFound('<h3>Page not found:^(</h3>)')
+
+def template_test(request):
+    # return render(request, 'template_test.html')
+    return TemplateResponse(request, 'template_test.html')
