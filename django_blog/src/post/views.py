@@ -3,10 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound, Http404, JsonResponse
 from django.template.response import TemplateResponse
 from post.models import Post
-
+from django.views.decorators.csrf import csrf_exempt
+import json
 # def index(request):
 #     print(request)
 #     print(request.scheme)
@@ -49,29 +50,38 @@ def posts(request):
         'posts': posts,
     }
 
-    return render(request, 'post.html', context=data)
+    return render(request, 'post/post.html', context=data)
 
 
 def post_detail(request, post_id):
     try:
         post = Post.objects.get(id=post_id)
     except Post.DoesNotExist:
-        raise Http404("Пост не существует")
+        raise Http404("Пост не существует") 
     context = {
         'post': post,
         'message': 'Детально ознакомьтесь с постом',
     }
-    return render(request, 'post_detail.html', context)
+    return render(request, 'post/post_detail.html', context)
 
 def post_archive(request, year):
     if int(year)> 2024 or int(year)<1995:
         raise Http404
     return HttpResponse(f'archive for:{year}')
 
+@csrf_exempt
 def get_post_handler(request):
-    if request.POST:
+    if request.method=='POST':
         return HttpResponse('POST request')
-    return HttpResponse('GET request')
+
+    is_active = request.GET.get('is_active')
+    user = request.GET.get('user')
+
+    posts=Post.objects.filter(is_actual=bool(is_active), user__username=user).values('title')
+    response={
+        'posts':list(posts)
+    }
+    return JsonResponse(response)
 
 def page_404(request, exception):
     return HttpResponseNotFound('<h3>Page not found:^(</h3>)')
