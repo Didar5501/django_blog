@@ -1,6 +1,6 @@
 
 from django.urls import path, re_path
-
+from django.shortcuts import redirect
 from . import views 
 
 
@@ -15,7 +15,7 @@ from . import views
 #         path('home/', views.home),# Домашеяя работа за 22/02/24
 #     ]
 urlpatterns = [
-    path('', views.posts, name= 'home'),
+    path('', views.posts, name='home'),
     path('<int:post_id>/', views.post_detail, name='post_detail'),
     re_path(r'^archive/(?P<year>[0-9]{4})/$', views.post_archive),
     path('get_post/', views.get_post_handler),

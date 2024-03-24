@@ -20,5 +20,4 @@ class CategoryAdmin(admin.ModelAdmin):
     ]
 
 
-
 # Register your models here.

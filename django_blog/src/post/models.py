@@ -4,24 +4,29 @@ from django.db import models
 
 
 
-
 class Post(models.Model):
     title = models.CharField(max_length=128, null=True, default=f'post{int(random.random()*100)}')
     created_at=models.DateTimeField(auto_now_add=True, null=True) #дата создания
     updated_at=models.DateTimeField(auto_now=True, null=True) #дата последнего обновления записи
     is_actual = models.BooleanField(blank=True, null=True) # True/False
     photo = models.ImageField(upload_to='imgs/posts', null=True, blank=True)
+    
     user = models.ForeignKey(to=User, related_name='post', on_delete=models.CASCADE)
     categories=models.ManyToManyField(
         to='Category',
         related_name='posts',
     )
     
-    class Meta:
-        ordering =['-updated_at']
-
     def __str__(self) -> str:
-        return f'{self.id} - {self.title}'
+        return f'{self.id} --- {self.title}'
+
+    class Meta:
+        db_table='post_post'
+        ordering =['-created_at']
+        verbose_name='Post'
+        verbose_name_plural='Posts'
+
+
 
 class Category(models.Model):
     created_at=models.DateTimeField(auto_now_add=True, null=True) 
