@@ -1,4 +1,15 @@
-{%load static%}
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>New post</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}
+
+<!-- {%load static%}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,4 +26,4 @@
         <input type="submit" value="Create">
     </form>
 </body>
-</html>
+</html> -->

@@ -1,37 +1,26 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'post/css/main.css' %}">
-    <title>Детали поста</title>
-</head>
-<body class="fon">
+{% block content %}
     <h1>{{ post.title }}</h1>
-    <p>Детально ознакомьтесь с постом</p>
-    
-    <p><strong>Статус актуальности:</strong> {{ post.status }} </p>
-    
+    <p><strong>Статус актуальности:</strong> {{ post.status }}</p>
     {% if post.image %}
-    <img src="{{ post.image.url }}" alt="Фото поста" width="100px" height="100px">
+        <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid" width='200px' height='200px'>
     {% endif %}
-    
     <p><strong>Пользователь:</strong> {{ post.user }}</p>
-    
     <p><strong>Категории:</strong>
     {% for category in post.categories.all %}
         {{ category.title }}{% if not forloop.last %}, {% endif %}
     {% endfor %}
     </p>
-    
+    <p><strong>Текст:</strong>
+        {{post.text}}
+    </p>
     <p><strong>Дата создания:</strong> {{ post.created_at }}</p>
     <p><strong>Дата обновления:</strong> {{ post.updated_at }}</p>
-
-    <form action="{% url 'post_delete' post.pk %}" method="post">
+    
+    <form method="post" action="{% url 'post_delete' pk=post.pk %}">
         {% csrf_token %}
-        <button type="submit">Удалить пост</button>
+        <button type="submit" class="btn btn-danger">Удалить пост</button>
     </form>
-</body>
-</html>
+
+{% endblock %}
