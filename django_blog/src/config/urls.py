@@ -13,8 +13,9 @@ urlpatterns= [
         path('admin/', admin.site.urls),
         path('post/', include('post.urls')),
         path('account/', include('account.urls')),
-        path('api/v1/',include('api.urls'))
-        
+        path('api/v1/',include('api.urls')),
+        path('api-auth/', include('rest_framework.urls')),
+        # path('api/v1/dj-rest-auth/', include('dj-rest-auth.urls'))
             ]
 
 # handler404 = page_404
